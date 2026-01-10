@@ -2,6 +2,7 @@
 import React from "react";
 import {  useSelector } from "react-redux";
 import { LoggedInUser } from "../../Store/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 
 const Profile = () => {
@@ -10,6 +11,12 @@ const Profile = () => {
 
   const User = useSelector((state) => state.user)
   console.log(User)
+
+  const navigate = useNavigate();
+
+  const handleNavigation=()=> {
+    navigate('/EditProfile')
+  }
 
 
   return (
@@ -56,7 +63,9 @@ const Profile = () => {
 
       {/* Buttons */}
       <div className="flex gap-4 mt-6">
-        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition rounded-lg text-sm sm:text-base">
+
+        
+        <button onClick={handleNavigation} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition rounded-lg text-sm sm:text-base">
           Edit Profile
         </button>
       </div>

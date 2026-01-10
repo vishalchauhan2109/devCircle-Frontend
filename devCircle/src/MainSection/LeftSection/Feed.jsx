@@ -51,7 +51,7 @@ export const Feed =()=>{
   };
 
   return (
-    <div className=" no-scrollbar overflow-y-scroll bg-neutral-900 text-white p-4 flex flex-col items-center gap-8">
+    <div className=" no-scrollbar overflow-y-scroll bg-neutral-900 text-white flex flex-col items-center gap-8">
       {posts.map((post) => (
         <div
           key={post.id}

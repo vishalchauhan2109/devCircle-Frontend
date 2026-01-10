@@ -18,20 +18,23 @@ export const SideBar = () => {
           className="drawer-overlay"
         >
         </label>
-        <ul className="menu bg-base-200 min-h-full w-60 p-">
+        <ul className="menu bg-base-200 min-h-full w-60">
           {/* Sidebar content here  */}
+
+
           <li className="mt-10">
+            <Link to="/Home">
+              <p className="text-white text-xl" >Home</p>
+            </Link>
+          </li>
+
+
+          <li >
             <Link to="/Profile">
               <p className="text-white text-xl" >Profile</p>
             </Link>
           </li>
 
-
-          <li>
-            <Link to="/Home">
-              <p className="text-white text-xl" >Home</p>
-            </Link>
-          </li>
           <li>
             <Link to="/Search">
               <p className="text-white text-xl" >Search</p>

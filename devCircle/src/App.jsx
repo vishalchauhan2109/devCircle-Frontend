@@ -8,6 +8,7 @@ import SearchPage from "./MainSection/LeftSection/SearchPage";
 import { Feed } from "./MainSection/LeftSection/Feed";
 import Profile from "./MainSection/LeftSection/Profile";
 import { About } from "./MainSection/LeftSection/About";
+import EditProfile from "./Components/EditProfile";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Search" element={<SearchPage/>}/>
           <Route path="/Profile" element={<Profile/>}/>
           <Route path="/About" element={<About/>}/>
+          <Route path ="/EditProfile" element ={<EditProfile/>} />
 
 
           </Route>

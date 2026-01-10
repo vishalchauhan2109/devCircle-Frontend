@@ -12,6 +12,7 @@ import { MessageSection } from "../MainSection/RightSection/MessageSection"
 import { useDispatch, useSelector } from "react-redux";
 import { LoggedInUser } from "../Store/UserSlice";
 import Login from "./LoginAndSignup/Login";
+import { SuggestPeople } from "../MainSection/RightSection/SuggestedPeople";
 
 export const MainSection = () => {
 
@@ -45,18 +46,14 @@ export const MainSection = () => {
       <Navbar />
       <div className="flex justify-around pt-10 h-screen">
         <SideBar />
-
         {
           (!User) ?
-
-
             <Login />
-
             :
             <Outlet />
         }
 
-        <MessageSection />
+        <SuggestPeople/>
       </div>
     </>
   )

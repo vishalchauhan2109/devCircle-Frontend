@@ -25,8 +25,6 @@ const Login = () => {
         password
       },
       {withCredentials:true}
-
-      
     );
     
       dispatch(LoggedInUser(res.data))
