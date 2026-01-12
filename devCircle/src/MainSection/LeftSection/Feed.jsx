@@ -51,53 +51,54 @@ export const Feed =()=>{
   };
 
   return (
-    <div className=" no-scrollbar overflow-y-scroll bg-neutral-900 text-white flex flex-col items-center gap-8">
-      {posts.map((post) => (
-        <div
-          key={post.id}
-          className="bg-neutral-800 w-full max-w-lg rounded-xl shadow-md p-4"
-        >
-          {/* User Info */}
-          <div className="flex items-center gap-3 mb-3">
-            <img
-              src={post.avatar}
-              alt="user"
-              className="w-12 h-12 rounded-full object-cover"
-            />
-            <h3 className="text-lg font-semibold">{post.user}</h3>
-          </div>
+    <></>
+    // <div className=" no-scrollbar overflow-y-scroll bg-neutral-900 text-white flex flex-col items-center gap-8">
+    //   {posts.map((post) => (
+    //     <div
+    //       key={post.id}
+    //       className="bg-neutral-800 w-full max-w-lg rounded-xl shadow-md p-4"
+    //     >
+    //       {/* User Info */}
+    //       <div className="flex items-center gap-3 mb-3">
+    //         <img
+    //           src={post.avatar}
+    //           alt="user"
+    //           className="w-12 h-12 rounded-full object-cover"
+    //         />
+    //         <h3 className="text-lg font-semibold">{post.user}</h3>
+    //       </div>
 
-          {/* Post Image */}
-          <img
-            src={post.image}
-            alt="post"
-            className="w-full rounded-lg object-cover"
-          />
+    //       {/* Post Image */}
+    //       <img
+    //         src={post.image}
+    //         alt="post"
+    //         className="w-full rounded-lg object-cover"
+    //       />
 
-          {/* Like / Dislike */}
-          <div className="flex items-center gap-6 mt-4">
-            {/* Like Button */}
-            <button
-              onClick={() => toggleLike(post.id)}
-              className={`text-xl ${
-                post.liked ? "text-blue-500" : "text-neutral-400"
-              }`}
-            >
-              👍 {post.like}
-            </button>
+    //       {/* Like / Dislike */}
+    //       <div className="flex items-center gap-6 mt-4">
+    //         {/* Like Button */}
+    //         <button
+    //           onClick={() => toggleLike(post.id)}
+    //           className={`text-xl ${
+    //             post.liked ? "text-blue-500" : "text-neutral-400"
+    //           }`}
+    //         >
+    //           👍 {post.like}
+    //         </button>
 
-            {/* Dislike Button */}
-            <button
-              onClick={() => toggleDislike(post.id)}
-              className={`text-xl ${
-                post.disliked ? "text-red-500" : "text-neutral-400"
-              }`}
-            >
-              👎129k
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
+    //         {/* Dislike Button */}
+    //         <button
+    //           onClick={() => toggleDislike(post.id)}
+    //           className={`text-xl ${
+    //             post.disliked ? "text-red-500" : "text-neutral-400"
+    //           }`}
+    //         >
+    //           👎129k
+    //         </button>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 } 

@@ -19,7 +19,7 @@ function App() {
 
 
     <BrowserRouter basename="/">
-      <div>
+      <div className=" bg-[#FFF6EA]">
         <Routes>
           <Route path="/" element={<MainSection/>}>
           <Route index element={<Login/>}/>
@@ -30,6 +30,8 @@ function App() {
           <Route path="/Profile" element={<Profile/>}/>
           <Route path="/About" element={<About/>}/>
           <Route path ="/EditProfile" element ={<EditProfile/>} />
+          {/* <Route path ="/EditProfile" element ={<EditProfile/>} /> */}
+
 
 
           </Route>

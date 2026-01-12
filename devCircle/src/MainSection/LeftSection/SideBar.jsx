@@ -3,65 +3,109 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export const SideBar = () => {
-
-
   const User = useSelector((state) => state.user);
+
+
+ 
+
   return (
-    <>
-      <div className=" lg:drawer-open ">
-        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-        {/* Page content here */}
+      <>
+      {User ? 
+      (
+      <div className="drawer lg:drawer-open fixed  ">
+      <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
-        <label
-          htmlFor="my-drawer-3"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        >
-        </label>
-        <ul className="menu bg-base-200 min-h-full w-60">
-          {/* Sidebar content here  */}
+      {/* Overlay for mobile */}
+      <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
 
+      {/* Sidebar */}
+      <aside className="menu min-h-full w-64 bg-[#FFF6EA] px-4 py-6 shadow-md">
+        
+        {/* User / Brand */}
+        <div className="mb-10 text-center">
+          <p className="text-xl font-semibold text-[#BF2EF0]">
+            {User?.firstName ? User.firstName : "Welcome"}
+          </p>
+        </div>
 
-          <li className="mt-10">
-            <Link to="/Home">
-              <p className="text-white text-xl" >Home</p>
-            </Link>
-          </li>
+        {/* Navigation */}
+        <li>
+          <Link
+            to="/Home"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            Home
+          </Link>
+        </li>
 
+        <li>
+          <Link
+            to="/Profile"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            Profile
+          </Link>
+        </li>
 
-          <li >
-            <Link to="/Profile">
-              <p className="text-white text-xl" >Profile</p>
-            </Link>
-          </li>
+        <li>
+          <Link
+            to="/Search"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            Search
+          </Link>
+        </li>
 
-          <li>
-            <Link to="/Search">
-              <p className="text-white text-xl" >Search</p>
-            </Link>
-          </li>
-          <li>
-            <a className="text-white text-xl">Message</a>
-          </li>
-          <li>
-            <a className="text-white text-xl">Friends</a>
-          </li>
-          <li>
-            <a className="text-white text-xl">Create a Post</a>
-          </li>
-          <li>
-            <Link to="/About">
-              <p className="text-white text-xl">About us</p>
-            </Link>
+        <li>
+          <Link
+            to="/Messages"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            Messages
+          </Link>
+        </li>
 
-          </li>
-          <li className="h-20 mt-5">
-            <img src="src\assets\DevCircleLogo.jpg" className="w-[200px]" alt="" />
+        <li>
+          <Link
+            to="/Friends"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            Friends
+          </Link>
+        </li>
 
-          </li>
-        </ul>
-      </div>
+        <li>
+          <Link
+            to="/CreatePost"
+            className="rounded-xl px-4 py-3 text-lg text-[#ED3EF7] hover:bg-[#FEEEC8] transition font-medium"
+          >
+            Create a Post
+          </Link>
+        </li>
 
+        <li>
+          <Link
+            to="/About"
+            className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
+          >
+            About Us
+          </Link>
+        </li>
+
+        {/* Logo */}
+        <div className="mt-auto pt-10 pb-20 flex justify-center">
+          <img
+            src="/src/assets/DevCircleLogo.jpg"
+            alt="DevCircle Logo"
+            className="w-44 opacity-90"
+          />
+        </div>
+      </aside>
+    </div>)
+     :  <h1>hii</h1>
+      }
     </>
-  );
+  )
+      
+ 
 };

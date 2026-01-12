@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 const Outlett = () => {
   return (
-    <div className=' min-h-auto pt-15 '>
+    <div className=' h-[calc(100vh-70px)] pt-20  bg-[#FFF6EA]'>
         <Outlet/>
     </div>
   )
