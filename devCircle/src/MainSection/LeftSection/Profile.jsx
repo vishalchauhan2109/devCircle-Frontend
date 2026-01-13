@@ -44,7 +44,7 @@ const Profile = () => {
         <div className="flex justify-center mt-6">
           <Link to="/EditProfile">
 <button
-  className="relative z-50 px-6 py-2 bg-blue-600 hover:bg-[#BF2EF0] transition rounded-lg sm:text-base"
+  className="relative z-50 px-6 py-2 cursor-pointer bg-blue-600 hover:bg-[#BF2EF0] transition rounded-lg sm:text-base"
 >
               Edit Profile
             </button>

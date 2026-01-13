@@ -1,90 +1,149 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export const About = () => {
+  const User = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-    const User = useSelector((state) => state.user)
-    const nevigate = useNavigate();
-    const HandleAbout = () => {
-        nevigate("/Home")
-    }
+  const scrollRef = useRef(null);
+  const requestRef = useRef(null);
+  const isHovering = useRef(false);
+  const scrollSpeed = 0.6; // smooth slow scroll
 
-    return (
-        <div className="bg-base-100 overflow-y-scroll text-white min-h-screen">
-            {/* Hero */}
-            <section className="bg-gradient-to-br from-[#1f1f2e] to-[#2a2a3f] px-6 py-20 text-center">
-                <h1 className="text-5xl font-bold mb-4">
-                    Welcome to <span className="text-indigo-400">Dev-Circle</span>
-                </h1>
-                <p className="text-xl max-w-2xl mx-auto mb-8">
-                    The social hub where developers grow, connect, and build the future — together.
-                </p>
-                <p className="text-indigo-300 italic text-lg mb-6">
-                    “The community you live, the standard they maintain —
-                    follow them and become like them, naturally.”
-                </p>
+  const words = ["Build", "Connect", "Grow", "Collaborate", "Innovate"];
+  const [activeWord, setActiveWord] = useState(words[0]);
 
-                <button onClick={HandleAbout} className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 rounded text-lg font-semibold transition">
-                    Join Dev-Circle
-                </button>
+  /* rotating text */
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i = (i + 1) % words.length;
+      setActiveWord(words[i]);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-            </section>
+  /* vertical auto scroll (same logic as SuggestPeople) */
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
 
-            {/* Features */}
-            <section className="py-16 px-6 lg:px-24">
-                <h2 className="text-3xl font-bold text-center mb-8">What You Can Do Here</h2>
+    const step = () => {
+    //   if (!isHovering.current) {
+    //     container.scrollTop += scrollSpeed;
+    //   }
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">💬 Share Ideas</h3>
-                        <p>Post your thoughts, insights, and creative concepts with the world.</p>
-                    </div>
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">🤝 Meet Seniors</h3>
-                        <p>Connect with experienced developers for guidance and mentorship.</p>
-                    </div>
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">📚 Learn Together</h3>
-                        <p>Collaborate on projects, learn new skills and enhance your craft.</p>
-                    </div>
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">🌐 Seek Opportunities</h3>
-                        <p>Find internships, job openings, and real work opportunities.</p>
-                    </div>
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">👥 Make Friends</h3>
-                        <p>Build friendships with like-minded developers across the globe.</p>
-                    </div>
-                    <div className="p-6 bg-[#212134] rounded-lg shadow-lg hover:shadow-indigo-500 transition">
-                        <h3 className="text-2xl font-semibold mb-2">🚀 Grow Together</h3>
-                        <p>Push each other forward — improve, inspire, and innovate.</p>
-                    </div>
-                </div>
-            </section>
+    //   if (container.scrollTop >= container.scrollHeight / 2) {
+    //     container.scrollTop = 1;
+    //   }
 
-            {/* Call to Action Banner */}
-            <section className="bg-indigo-600 py-10 text-center px-6">
-                <h2 className="text-3xl font-bold mb-4">
-                    Ready to Become a Part of Something Bigger?
-                </h2>
-                <Link
-                    to={User ? "" : "/"}
-                    className="mt-3 inline-block bg-white text-indigo-700 font-semibold px-6 py-3 rounded hover:bg-gray-200 transition"
+      requestRef.current = requestAnimationFrame(step);
+    };
+
+    requestRef.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
+
+  return (
+    <div className="h-[calc(100vh-80px)] bg-[#FFF6EA] overflow-hidden">
+      <div
+        ref={scrollRef}
+        // onMouseEnter={() => (isHovering.current = true)}
+        // onMouseLeave={() => (isHovering.current = false)}
+        className="h-full overflow-y-auto about-no-scrollbar"
+      >
+        <div className="flex flex-col">
+
+          {/* ================= HERO ================= */}
+          <section className="px-6 py-24 text-center bg-gradient-to-br from-[#BF2EF0] to-[#ED3EF7] text-white">
+            <h1 className="text-5xl font-extrabold mb-6">
+              A Place to{" "}
+              <span className="text-[#FEEEC8]">{activeWord}</span>
+            </h1>
+
+            <p className="text-xl max-w-3xl mx-auto mb-8 text-[#FFF6EA]">
+              Dev-Circle is a developer-first social platform where ideas turn
+              into impact and growth happens together.
+            </p>
+
+            <p className="italic text-lg mb-10 text-[#FEEEC8]">
+              “You don’t grow alone — you grow with the people you surround yourself with.”
+            </p>
+
+            <button
+              onClick={() => navigate("/Home")}
+              className="px-10 py-4 bg-[#FEEEC8] text-[#BF2EF0] font-bold rounded-full
+                         hover:scale-105 transition-all"
+            >
+              Join Dev-Circle 🚀
+            </button>
+          </section>
+
+          {/* ================= FEATURES ================= */}
+          <section className="py-20 px-6 lg:px-24">
+            <h2 className="text-4xl font-bold text-center mb-14 text-[#BF2EF0]">
+              What You Can Do Here
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {[
+                ["💬 Share Ideas", "Post your thoughts and creative concepts."],
+                ["🤝 Meet Seniors", "Learn from experienced developers."],
+                ["📚 Learn Together", "Collaborate and grow skills faster."],
+                ["🌐 Opportunities", "Discover jobs and internships."],
+                ["👥 Make Friends", "Build developer friendships."],
+                ["🚀 Grow Together", "Push limits and innovate."]
+              ].map(([title, desc], i) => (
+                <div
+                  key={i}
+                  className="bg-[#FEEEC8] p-8 rounded-2xl shadow-lg
+                             hover:-translate-y-2 transition-all"
                 >
-                    Start Your Journey
-                </Link>
-            </section>
+                  <h3 className="text-2xl font-semibold mb-3 text-[#BF2EF0]">
+                    {title}
+                  </h3>
+                  <p className="text-gray-700">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
-            {/* Footer */}
-            <footer className="bg-[#1b1b2b] text-center py-6 mt-10">
-                <p className="text-sm">
-                    Developed with ❤️ for the Dev-Circle Community
-                </p>
-                <p className="text-xs text-gray-400 mt-1">
-                    © {new Date().getFullYear()} Dev-Circle. All Rights Reserved.
-                </p>
-            </footer>
+          {/* ================= CTA ================= */}
+          <section className="bg-[#BF2EF0] py-16 text-center text-white px-6">
+            <h2 className="text-3xl font-bold mb-6">
+              Ready to Start Your Developer Journey?
+            </h2>
+
+            <Link
+              to={User ? "/Home" : "/"}
+              className="inline-block bg-[#FFF6EA] text-[#BF2EF0]
+                         px-8 py-4 font-semibold rounded-full"
+            >
+              Start Your Journey ✨
+            </Link>
+          </section>
+
+          {/* ================= FOOTER ================= */}
+          <footer className="bg-[#ED3EF7] text-center py-6 text-white">
+            <p className="text-sm">
+              Developed with ❤️ for the Dev-Circle Community
+            </p>
+            <p className="text-xs mt-1 opacity-80">
+              © {new Date().getFullYear()} Dev-Circle
+            </p>
+          </footer>
+
+          {/* duplicate content for seamless loop */}
+          <div className="h-1" />
         </div>
-    );
+      </div>
+
+      {/* scrollbar hide (same as your working one) */}
+      <style>{`
+        .about-no-scrollbar::-webkit-scrollbar { display: none; }
+        .about-no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+      `}</style>
+    </div>
+  );
 };

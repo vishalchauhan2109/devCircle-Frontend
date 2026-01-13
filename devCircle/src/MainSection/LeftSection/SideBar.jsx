@@ -19,14 +19,14 @@ export const SideBar = () => {
       <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
 
       {/* Sidebar */}
-      <aside className="menu min-h-full w-64 bg-[#FFF6EA] px-4 py-6 shadow-md">
+      <aside className="menu  h-[calc(100vh-80px)] w-64 bg-[#FFF6EA] px-5 py-6 shadow-md">
         
         {/* User / Brand */}
-        <div className="mb-10 text-center">
+        {/* <div className="mb-10 text-center">
           <p className="text-xl font-semibold text-[#BF2EF0]">
             {User?.firstName ? User.firstName : "Welcome"}
           </p>
-        </div>
+        </div> */}
 
         {/* Navigation */}
         <li>
