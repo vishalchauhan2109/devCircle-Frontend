@@ -1,6 +1,6 @@
 // src/Login.jsx
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { LoggedInUser } from "../../Store/UserSlice";
@@ -9,11 +9,10 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("rishabh@gmail.com");
-  const [password, setPassword] = useState("Rishabh@171717");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const User = useSelector((state) => state.user);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,81 +33,91 @@ const Login = () => {
     } catch (err) {
       setError(err?.response?.data?.error || "Login failed");
     }
-
   };
 
-  useEffect(()=>{
-    if(User){
-    navigate("/Home")
-  }
-  },[])
-  
+  const handleClick = () => {
+    navigate("/Signup");
+  };
 
+  useEffect(() => {
+    if (User) {
+      navigate("/Home");
+    }
+  }, []);
 
-return (
+  return (
+    <div className="min-h-screen flex items-center justify-center
+                    bg-gradient-to-br from-[#BF2EF0] via-[#ED3EF7] to-[#FEECB3] px-4">
 
+      <div className="w-full max-w-md bg-[#FFF6EA] rounded-3xl shadow-2xl
+                      px-10 py-8 animate-[fadeIn_0.8s_ease-in-out]">
 
-  <div className="h-screen flex items-center justify-center text-[#ED3EF7] bg-[#FFF6EA] px-4">
-    <div className="w-full max-w-xl h-100 bg-white rounded-3xl shadow-xl px-10 py-5">
+        <h2 className="text-3xl font-bold text-center text-[#BF2EF0] mb-6">
+          Welcome Back User
+        </h2>
 
-      <h2 className="text-2xl font-bold text-[#BF2EF0] text-center mb-3">
-        Welcome Back 🌸
-      </h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-neutral-600 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border
+                         focus:border-[#BF2EF0] text-neutral-500 focus:outline-none
+                         transition"
+              required
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm text-gray-600 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ED3EF7]/40"
-            required
-          />
+          <div>
+            <label className="block text-sm text-neutral-600 mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border
+                         focus:border-[#BF2EF0] text-neutral-500 focus:outline-none
+                         transition"
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-500 text-center animate-pulse">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            // onClick={()=>console.log("hii")}  
+            className="w-full bg-gradient-to-r from-[#BF2EF0] to-[#ED3EF7]
+                       text-white font-semibold py-3 rounded-xl
+                       hover:scale-105 transition-transform shadow-lg"
+          >
+            Login
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-neutral-600 text-sm">
+          Don’t have an account?{" "}
+          <span
+            onClick={handleClick}
+            className="cursor-pointer text-[#BF2EF0] font-semibold hover:underline"
+          >
+            Sign up
+          </span>
         </div>
-
-        <div>
-          <label className="block text-sm text-gray-600 mb-2">
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ED3EF7]/40"
-            required
-          />
-        </div>
-
-        {error && (
-          <p className="text-sm text-red-500 text-center">
-            {error}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          className="w-full bg-[#ED3EF7] hover:bg-[#BF2EF0] text-white font-semibold py-2.5 rounded-xl transition"
-        >
-          Login
-        </button>
-      </form>
-
-      <div className="mt-4 text-center text-gray-600 text-sm">
-        Don’t have an account?{" "}
-        <Link
-          to="/Signup"
-          className="text-[#BF2EF0] font-medium hover:underline"
-        >
-          Sign up
-        </Link>
       </div>
-    </div>
-  </div>
-);
 
-}
+    </div>
+  );
+};
+
 export default Login;

@@ -12,21 +12,21 @@ export const SideBar = () => {
       <>
       {User ? 
       (
-      <div className="drawer lg:drawer-open fixed  ">
+      <div className="drawer lg:drawer-open   ">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
       {/* Overlay for mobile */}
       <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
 
       {/* Sidebar */}
-      <aside className="menu  h-[calc(100vh-80px)] w-64 bg-[#FFF6EA] px-5 py-6 shadow-md">
+      <aside className="menu  h-[calc(100vh-80px)] w-64 bg-[#FFFFE0] px-5 py-6 shadow-md">
         
         {/* User / Brand */}
-        {/* <div className="mb-10 text-center">
+        <div className="mb-10 text-center">
           <p className="text-xl font-semibold text-[#BF2EF0]">
             {User?.firstName ? User.firstName : "Welcome"}
           </p>
-        </div> */}
+        </div>
 
         {/* Navigation */}
         <li>
@@ -73,16 +73,22 @@ export const SideBar = () => {
             Friends
           </Link>
         </li>
-
         <li>
           <Link
-            to="/CreatePost"
-            className="rounded-xl px-4 py-3 text-lg text-[#ED3EF7] hover:bg-[#FEEEC8] transition font-medium"
+            to="/ConnectionRequest"
+            className="rounded-xl px-4 py-3 text-lg  text-gray-700 hover:bg-[#FEEEC8] transition "
+          >
+            Connection Requests
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/Posts"
+            className="rounded-xl px-4 py-3 text-lg  text-gray-700 hover:bg-[#FEEEC8] transition "
           >
             Create a Post
           </Link>
         </li>
-
         <li>
           <Link
             to="/About"
@@ -91,15 +97,16 @@ export const SideBar = () => {
             About Us
           </Link>
         </li>
+        <li className="mt-auto  flex ">
+          <img
+            src="/src/assets/DevCircleLogo.png"
+            alt="DevCircle Logo"
+            className="w-38 opacity-90"
+          />
+        </li>
 
         {/* Logo */}
-        <div className="mt-auto pt-10 pb-20 flex justify-center">
-          <img
-            src="/src/assets/DevCircleLogo.jpg"
-            alt="DevCircle Logo"
-            className="w-44 opacity-90"
-          />
-        </div>
+        
       </aside>
     </div>)
      :  <h1>hii</h1>

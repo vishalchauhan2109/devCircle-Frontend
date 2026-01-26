@@ -11,6 +11,8 @@ import { About } from "./MainSection/LeftSection/About";
 import EditProfile from "./Components/EditProfile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ConnectionRequest from "./MainSection/LeftSection/ConnectionRequest";
+import  PostSection  from "./MainSection/LeftSection/PostSection";
 function App() {
 
 
@@ -40,7 +42,8 @@ function App() {
               <Route path="/Profile" element={<Profile />} />
               <Route path="/About" element={<About />} />
               <Route path="/EditProfile" element={<EditProfile />} />
-              {/* <Route path ="/EditProfile" element ={<EditProfile/>} /> */}
+              <Route path="/ConnectionRequest" element={<ConnectionRequest/>} />
+              <Route path ="/Posts" element ={<PostSection/>} />
 
 
 
