@@ -7,7 +7,7 @@ const ConnectionRequestCard = (props) => {
   const {setLoad} = props
 
   const { firstName, lastName, photoURL, _id } = props?.request
-  // console.log({request})
+  console.log(props?.request)
   // console.log()
  
   const Resrequest = async (status,fromUserId) => {

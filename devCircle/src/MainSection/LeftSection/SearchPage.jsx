@@ -13,7 +13,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col  h-130 text-white">
+    <div className="flex flex-col h-[calc(100vh-80px)] text-white">
 
       {/* Add padding-top equal to navbar height (here h-16 = 4rem) */}
       <main className="flex-1 flex  justify-center pt-10 px-4">

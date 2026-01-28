@@ -17,7 +17,7 @@ const ConnectionRequest = () => {
       );
 
       if (res?.data) {
-        setRequest(res.data);
+        setRequest(res?.data);
       }
     } catch (error) {
       console.log(error);
@@ -33,7 +33,7 @@ const ConnectionRequest = () => {
   }, [request]);
 
   return (
-    <div className="max-h-[calc(100vh-80px) bg-[#fff6ea] px-4 py-6">
+    <div className="max-h-[calc(100vh-80px) flex-col items-center justify-center   bg-[#fff6ea] px-4 py-6">
 
       <div className="text-neutral-800 text-2xl  underline mb-4  ">
         Connection Requests

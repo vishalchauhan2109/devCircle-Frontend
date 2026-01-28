@@ -10,12 +10,14 @@ export const SuggestPeople = () => {
   const [loadingIndex, setLoadingIndex] = useState(null);
 
   const User = useSelector((state) => state.user);
+  
+
 
   const scrollRef = useRef(null);
   const requestRef = useRef(null);
   const isHovering = useRef(false);
 
-  const scrollSpeed = 1.2;
+  // const scrollSpeed = 1.2;
 
   // ================= FETCH PEOPLE =================
   const fetchPeople = async () => {
