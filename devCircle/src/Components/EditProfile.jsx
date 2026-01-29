@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { LoggedInUser } from "../Store/UserSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { API_URL } from "../Var";
 
 export default function UserProfileForm() {
   const [username, setUsername] = useState("");
@@ -28,7 +29,7 @@ export default function UserProfileForm() {
 
       if (photo) ("photoURL", photo);
 
-      let response = await axios.patch("http://localhost:2100/profile/edit", {
+      let response = await axios.patch(`${API_URL}/profile/edit`, {
         "firstName": username,
         "about": about,
         // "photoURL": photo,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FriendsCard from "./FriendsCard";
+import { API_URL } from "../../Var";
 // import { User } from 'lucide-react'
 // import { FriendsCard } from './FriendsCard'
 
@@ -9,7 +10,7 @@ const Friends = () => {
 
   const handleFetch = async () => {
     try {
-      const res = await axios.get("http://localhost:2100/friends", {
+      const res = await axios.get(`${API_URL}/friends`, {
         withCredentials: true,
       });
       console.log(res.data);

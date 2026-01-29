@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LoggedInUser } from "../Store/UserSlice";
+import { API_URL } from "../Var";
+// import { VITE_API_URL } from "../Var";
 
 const Navbar = () => {
     const User = useSelector((state) => state.user);
@@ -10,6 +12,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
 
+    console.log(API_URL)
 
     console.log(show)
     const handleShow = () => {
@@ -18,7 +21,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await axios.post(
-                "http://localhost:2100/logout",
+                `${API_URL}/logout`,
                 {},
                 { withCredentials: true }
             );

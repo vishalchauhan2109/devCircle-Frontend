@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { LoggedInUser } from "../../Store/UserSlice";
+import { API_URL } from "../../Var";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,8 +20,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const res = await axios.post(
-        "http://localhost:2100/Login",
+      const res = await axios.post(`${API_URL}/Login`,
         {
           emailId: email,
           password,

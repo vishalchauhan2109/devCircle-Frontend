@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { API_URL } from "../../Var";
 
 const PostSection = () => {
   const [caption, setCaption] = useState("");
@@ -43,7 +44,7 @@ const PostSection = () => {
 
       console.log(formData);
       const res = await axios.post(
-        `http://localhost:2100/posts/createpost/${id}`,
+        `${API_URL}/posts/createpost/${id}`,
         formData,
         { withCredentials: true },
       );

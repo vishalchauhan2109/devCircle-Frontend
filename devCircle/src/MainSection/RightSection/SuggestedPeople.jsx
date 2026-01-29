@@ -3,6 +3,7 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
+import { API_URL } from "../../Var";
 
 export const SuggestPeople = () => {
   const [people, setPeople] = useState([]);
@@ -19,10 +20,10 @@ export const SuggestPeople = () => {
 
   // const scrollSpeed = 1.2;
 
-  // ================= FETCH PEOPLE =================
+
   const fetchPeople = async () => {
     try {
-      const { data } = await axios.get("http://localhost:2100/feed", {
+      const { data } = await axios.get(`${API_URL}/feed`, {
         withCredentials: true,
       });
       setPeople(data);
@@ -31,7 +32,6 @@ export const SuggestPeople = () => {
     }
   };
 
-  // ================= SEND REQUEST =================
   const fetchRequests = async (status, idx) => {
     try {
       const id = people[idx]._id;
@@ -40,7 +40,7 @@ export const SuggestPeople = () => {
       setLoadingIndex(idx);
 
       const { data } = await axios.post(
-        `http://localhost:2100/request/send/${status}/${id}`,
+        `${API_URL}/request/send/${status}/${id}`,
         {},
         { withCredentials: true }
       );
@@ -112,12 +112,12 @@ export const SuggestPeople = () => {
             >
               <img
                 src={user?.photoURL}
-                alt={user.firstName}
+                alt={user?.firstName}
                 className="w-full h-44 object-cover rounded-xl mb-3"
               />
 
               <h3 className="text-lg font-semibold text-[#BF2EF0] leading-tight">
-                {user.firstName.toUpperCase()} {user.lastName.toUpperCase()}
+                {user?.firstName.toUpperCase()} {user?.lastName.toUpperCase()}
               </h3>
 
               <p className="text-sm text-gray-600 line-clamp-2 mt-1">

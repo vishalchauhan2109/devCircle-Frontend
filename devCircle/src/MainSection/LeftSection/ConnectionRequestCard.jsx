@@ -1,5 +1,7 @@
 import axios from "axios";
 import React from "react";
+// import { VITE_API_URL } from ".var";
+import { API_URL } from "../../Var";
 // import Button from "../../Button";
 
 const ConnectionRequestCard = (props) => {
@@ -12,7 +14,7 @@ const ConnectionRequestCard = (props) => {
  
   const Resrequest = async (status,fromUserId) => {
     const data = await axios.post(
-      `http://localhost:2100/request/review/${status}/${fromUserId}`,
+      `${API_URL}/request/review/${status}/${fromUserId}`,
       {},
       { withCredentials: true }
     );

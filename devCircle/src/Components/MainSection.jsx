@@ -6,11 +6,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import Navbar from "../Components/Navbar" 
 import { Outlet } from "react-router-dom"; 
-import { MessageSection } from "../MainSection/RightSection/MessageSection"; 
+// import { MessageSection } from "../MainSection/RightSection/MessageSection"; 
 import { useDispatch, useSelector } from "react-redux";
 import { LoggedInUser } from "../Store/UserSlice"; 
 import Login from "./LoginAndSignup/Login"; 
 import { SuggestPeople } from "../MainSection/RightSection/SuggestedPeople";
+import { API_URL } from "../Var";
 
 export const MainSection = () => {
   const User = useSelector((state) => state.user);
@@ -20,7 +21,7 @@ export const MainSection = () => {
   const fetchLoggedInUser = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:2100/Profile/view",
+        `${API_URL}/Profile/view`,
         { withCredentials: true }
       );
       dispatch(LoggedInUser(res.data));

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ConnectionRequestCard from "./ConnectionRequestCard";
+import { API_URL } from "../../Var";
+// import { VITE_API_URL } from "../../Var";
 // import { useParams } from "react-router-dom";
 
 const ConnectionRequest = () => {
@@ -12,7 +14,7 @@ const ConnectionRequest = () => {
   const fetchRequest = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:2100/incomingRequest",
+        `${API_URL}/incomingRequest`,
         { withCredentials: true }
       );
 
