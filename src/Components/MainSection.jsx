@@ -12,6 +12,7 @@ import { LoggedInUser } from "../Store/UserSlice";
 import Login from "./LoginAndSignup/Login"; 
 import { SuggestPeople } from "../MainSection/RightSection/SuggestedPeople";
 import { API_URL } from "../Var";
+import { baseUrl } from "../Constants";
 
 export const MainSection = () => {
   const User = useSelector((state) => state.user);
@@ -19,9 +20,11 @@ export const MainSection = () => {
   const navigate = useNavigate();
 
   const fetchLoggedInUser = async () => {
+    console.log(`${baseUrl}/Profile/view`);
+    
     try {
       const res = await axios.get(
-        `${API_URL}/Profile/view`,
+        `${baseUrl}/Profile/view`,
         { withCredentials: true }
       );
       dispatch(LoggedInUser(res.data));
@@ -37,9 +40,9 @@ export const MainSection = () => {
   }, []);
 
   // 🔴 If user not logged in → show ONLY login
-  if (!User) {
-    return <Login />;
-  }
+  // if (!User) {
+  //   return <Login />;
+  // }
 
   return (
     <div className="h-[calc(100vh-80px)]  bg-[#FFF6EA]">

@@ -11,16 +11,19 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("rana@gmail.com");
+  const [password, setPassword] = useState("Rana@kkr123");
   const [error, setError] = useState(null);
   const User = useSelector((state) => state.user);
 
+  console.log(User)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
+      console.log(`${baseUrl}/login`);
+      
       const res = await axios.post(`${baseUrl}/Login`,
         {
           emailId: email,
@@ -28,7 +31,7 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-
+      console.log(LoggedInUser(res.data)  )
       dispatch(LoggedInUser(res.data));
       navigate("/Home");
     } catch (err) {
