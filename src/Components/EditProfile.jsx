@@ -54,7 +54,7 @@ export default function UserProfileForm() {
       // alert(response);
       toast.success("Useer Updated successfully");
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       toast.error("error" + err);
     } finally {
       setLoading(false);
