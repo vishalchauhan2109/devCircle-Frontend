@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
 import { API_URL } from "../../Var";
+import { baseUrl } from "../../Constants";
 
 export const SuggestPeople = () => {
   const [people, setPeople] = useState([]);
@@ -23,7 +24,7 @@ export const SuggestPeople = () => {
 
   const fetchPeople = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/feed`, {
+      const { data } = await axios.get(`${baseUrl}/feed`, {
         withCredentials: true,
       });
       setPeople(data);

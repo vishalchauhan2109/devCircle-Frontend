@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 // import { VITE_API_URL } from ".var";
 import { API_URL } from "../../Var";
+import { baseUrl } from "../../Constants";
 // import Button from "../../Button";
 
 const ConnectionRequestCard = (props) => {
@@ -14,7 +15,7 @@ const ConnectionRequestCard = (props) => {
  
   const Resrequest = async (status,fromUserId) => {
     const data = await axios.post(
-      `${API_URL}/request/review/${status}/${fromUserId}`,
+      `${baseUrl}/request/review/${status}/${fromUserId}`,
       {},
       { withCredentials: true }
     );

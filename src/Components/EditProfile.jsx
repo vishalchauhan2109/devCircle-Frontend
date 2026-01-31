@@ -4,6 +4,7 @@ import { LoggedInUser } from "../Store/UserSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { API_URL } from "../Var";
+import { baseUrl } from "../Constants";
 
 export default function UserProfileForm() {
   const [username, setUsername] = useState("");
@@ -29,7 +30,7 @@ export default function UserProfileForm() {
 
       if (photo) ("photoURL", photo);
 
-      let response = await axios.patch(`${API_URL}/profile/edit`, {
+      let response = await axios.patch(`${baseUrl}/profile/edit`, {
         "firstName": username,
         "about": about,
         // "photoURL": photo,

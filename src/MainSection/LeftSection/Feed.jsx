@@ -1,104 +1,33 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import PostCard from "../../Components/PostCard";
+import axios from "axios";
+import { User } from "lucide-react";
+// import PostCard from "";
 
+const Feed = () => {
+  const [posts,setPosts] = useState([]);
 
-export const Feed =()=>{
-   const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "John Doe",
-      avatar: "https://i.pravatar.cc/150?img=10",
-      image: "https://www.hindustantimes.com/ht-img/img/2025/12/03/550x309/CRICKET-IND-RSA-ODI-66_1764765000720_1764765073102.jpg",
-      like: null,
-      dislike: null,
-    },
-    {
-      id: 2,
-      user: "Alex Carter",
-      avatar: "https://m.media-amazon.com/images/I/61Ko4M1uOJL._AC_UF894,1000_QL80_.jpg",
-      image: "https://m.media-amazon.com/images/I/61Ko4M1uOJL._AC_UF894,1000_QL80_.jpg",
-      like: null,
-      dislike: null,
-    },
-  ]);
+const fetchApi = async()=>{
+  try{
 
-  const toggleLike = (id) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.id === id
-          ? {
-              ...post,
-              liked: !post.liked,
-              disliked: post.liked ? post.disliked : false, // remove dislike if liked
-            }
-          : post
-      )
-    );
-  };
+    // const data = await axios.get(,{withCredentials:true},{})
+    // console.log(data.data)
+    // setPosts(data.data)
+  }catch{
+    console.log("error found")
+  }
+}
 
-  const toggleDislike = (id) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.id === id
-          ? {
-              ...post,
-              disliked: !post.disliked,
-              liked: post.disliked ? post.liked : false, // remove like if disliked
-            }
-          : post
-      )
-    );
-  };
-
+useEffect(()=>{
+  fetchApi()
+},[])
   return (
-    <></>
-    // <div className=" no-scrollbar overflow-y-scroll bg-neutral-900 text-white flex flex-col items-center gap-8">
-    //   {posts.map((post) => (
-    //     <div
-    //       key={post.id}
-    //       className="bg-neutral-800 w-full max-w-lg rounded-xl shadow-md p-4"
-    //     >
-    //       {/* User Info */}
-    //       <div className="flex items-center gap-3 mb-3">
-    //         <img
-    //           src={post.avatar}
-    //           alt="user"
-    //           className="w-12 h-12 rounded-full object-cover"
-    //         />
-    //         <h3 className="text-lg font-semibold">{post.user}</h3>
-    //       </div>
-
-    //       {/* Post Image */}
-    //       <img
-    //         src={post.image}
-    //         alt="post"
-    //         className="w-full rounded-lg object-cover"
-    //       />
-
-    //       {/* Like / Dislike */}
-    //       <div className="flex items-center gap-6 mt-4">
-    //         {/* Like Button */}
-    //         <button
-    //           onClick={() => toggleLike(post.id)}
-    //           className={`text-xl ${
-    //             post.liked ? "text-blue-500" : "text-neutral-400"
-    //           }`}
-    //         >
-    //           👍 {post.like}
-    //         </button>
-
-    //         {/* Dislike Button */}
-    //         <button
-    //           onClick={() => toggleDislike(post.id)}
-    //           className={`text-xl ${
-    //             post.disliked ? "text-red-500" : "text-neutral-400"
-    //           }`}
-    //         >
-    //           👎129k
-    //         </button>
-    //       </div>
-    //     </div>
-    //   ))}
-    // </div>
+    <div className="w-full text-neutral-300 scrollbar-hide   h-[calc(100vh-80px)] max-w-2xl overflow-y-scroll mx-auto flex flex-col gap-4">
+      {posts?.newposts?.map((post,idx) => (
+        <PostCard key={idx} user={posts} idx ={idx}  post={post} />
+      ))}
+    </div>
   );
-} 
+};
+
+export default Feed;

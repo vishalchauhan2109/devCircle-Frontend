@@ -5,7 +5,7 @@ import { MainSection } from "./Components/MainSection";
 import Login from "./Components/LoginAndSignup/Login";
 import Signup from "./Components/LoginAndSignup/Signup";
 import SearchPage from "./MainSection/LeftSection/SearchPage";
-import { Feed } from "./MainSection/LeftSection/Feed";
+import  Feed  from "./MainSection/LeftSection/Feed";
 import Profile from "./MainSection/LeftSection/Profile";
 import { About } from "./MainSection/LeftSection/About";
 import EditProfile from "./Components/EditProfile";
