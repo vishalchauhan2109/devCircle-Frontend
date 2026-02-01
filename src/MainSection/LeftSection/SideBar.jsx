@@ -1,118 +1,110 @@
-  import React from "react";
-  import { useSelector } from "react-redux";
-  import { Link } from "react-router-dom";
 
-  export const SideBar = () => {
-    const User = useSelector((state) => state.user);
+import { sidebarOpen, sidebarClose } from "../../Store/SidebarSlice";
 
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
-  
+export const SideBar = () => {
+  const User = useSelector((state) => state.user);
+  const location = useLocation();
+  const side = useSelector((state)=>state.sidebar)
+  const dispatch = useDispatch();
 
-    return (
-        <>
-        {User ? 
-        (
-        <div className="drawer lg:drawer-open   ">
-        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+  const [isOpen, setIsOpen] = useState(false);
 
-        {/* Overlay for mobile */}
-        <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
+  // Auto open on laptop, close on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsOpen(true);
+        dispatch(sidebarOpen())
+        console.log(side)
+      } else {
+        setIsOpen(false);
+        dispatch(sidebarClose())
+        // dispatch(SidebarOpen())
+      }
+    };
 
-        {/* Sidebar */}
-        <aside className="hidden lg:block menu h-[calc(100vh-80px)] w-64 bg-[#FFFFE0] px-5 py-6 shadow-md">
-          
-          {/* User / Brand */}
-          <div className="mb-10 text-center">
-            <p className="text-xl font-semibold text-[#BF2EF0]">
-              {User?.firstName ? User.firstName : "Welcome"}
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const links = [
+    { name: "Home", path: "/Home" },
+    { name: "Profile", path: "/Profile" },
+    { name: "Search", path: "/Search" },
+    { name: "Messages", path: "/Messages" },
+    { name: "Friends", path: "/Friends" },
+    { name: "Connection Requests", path: "/ConnectionRequest" },
+    { name: "Create a Post", path: "/Posts" },
+    { name: "About Us", path: "/About" },
+  ];
+
+  if (!User) return null;
+
+  return (
+    <>
+      {/* Mobile Toggle Button */}
+      <button
+        className="lg:hidden fixed top-4 left-4 z-50 bg-[#001D3D] text-[#FFC300] px-3 py-2 rounded-lg"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      {isOpen && (
+        <aside
+          className="fixed lg:static top-0 left-0 z-40
+                     h-screen lg:h-[calc(100vh-80px)]
+                     w-64 bg-[#001D3D]
+                     px-6 py-6 shadow-xl rounded-r-2xl"
+        >
+          {/* User Name */}
+          <div className="mb-8 text-center">
+            <p className="text-xl font-bold text-[#FFC300]">
+              {User?.firstName
+                ? User.firstName.toUpperCase()
+                : "WELCOME"}
             </p>
           </div>
 
-          {/* Navigation */}
-          <li>
-            <Link
-              to="/Home"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              Home
-            </Link>
-          </li>
+          {/* Links */}
+          <ul className="flex-1 space-y-3">
+            {links.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  onClick={() =>
+                    window.innerWidth < 1024 && setIsOpen(false)
+                  }
+                  className={`block px-4 py-3 rounded-xl font-medium transition
+                    ${
+                      location.pathname === link.path
+                        ? "bg-[#FFC300] text-[#001D3D]"
+                        : "text-[#FFD60A] hover:bg-[#003566] hover:text-[#FFC300]"
+                    }`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-          <li>
-            <Link
-              to="/Profile"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              Profile
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/Search"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              Search
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/Messages"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              Messages
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/Friends"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              Friends
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/ConnectionRequest"
-              className="rounded-xl px-4 py-3 text-lg  text-gray-700 hover:bg-[#FEEEC8] transition "
-            >
-              Connection Requests
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Posts"
-              className="rounded-xl px-4 py-3 text-lg  text-gray-700 hover:bg-[#FEEEC8] transition "
-            >
-              Create a Post
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/About"
-              className="rounded-xl px-4 py-3 text-lg text-gray-700 hover:bg-[#FEEEC8] transition"
-            >
-              About Us
-            </Link>
-          </li>
-          <li className="mt-auto  flex ">
+          {/* Logo */}
+          <div className="pt-6 flex justify-center border-t border-[#003566] mt-auto">
             <img
               src="/src/assets/DevCircleLogo.png"
               alt="DevCircle Logo"
-              className="w-38 opacity-90"
+              className="w-32 opacity-95"
             />
-          </li>
-
-          {/* Logo */}
-          
+          </div>
         </aside>
-      </div>)
-      :  <h1>hii</h1>
-        }
-      </>
-    )
-        
-  
-  };
+      )}
+    </>
+  );
+};

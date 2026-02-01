@@ -1,8 +1,6 @@
 // src/SearchPage.jsx
 import React, { useState } from 'react';
 
-
-
 export default function SearchPage() {
   const [query, setQuery] = useState('');
 
@@ -13,22 +11,22 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] text-white">
+    <div className="flex flex-col h-[calc(100vh-80px)] bg-[#001D3D] text-white">
 
-      {/* Add padding-top equal to navbar height (here h-16 = 4rem) */}
-      <main className="flex-1 flex  justify-center pt-10 px-4">
-        <form onSubmit={handleSearch} className= " plr-2 w-full max-w-md">
-          <div className="flex">
+      {/* Main content */}
+      <main className="flex-1 flex justify-center items-start pt-16 px-4">
+        <form onSubmit={handleSearch} className="w-full max-w-md">
+          <div className="flex shadow-lg rounded-md overflow-hidden">
             <input
               type="text"
               value={query}
               onChange={handleInput}
               placeholder="Type to search..."
-              className="grow px-4 py-2 bg-neutral-700 text-white placeholder-gray-400 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="grow px-4 py-3 bg-[#003566] text-[#FFD60A] placeholder-[#FFC300] focus:outline-none focus:ring-2 focus:ring-[#FFC300] transition"
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-r-md text-white font-medium"
+              className="px-6 py-3 bg-gradient-to-r from-[#FFC300] to-[#FFD60A] text-[#001D3D] font-semibold hover:opacity-90 transition"
             >
               Search
             </button>
@@ -36,7 +34,10 @@ export default function SearchPage() {
         </form>
       </main>
 
-      {/* optionally footer etc */}
+      {/* Optional footer */}
+      <footer className="mt-auto py-4 text-center text-[#FFD60A] opacity-80">
+        DevCircle Search
+      </footer>
     </div>
   );
 }

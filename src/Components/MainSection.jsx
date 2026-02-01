@@ -1,17 +1,13 @@
-import React from "react"; 
-import { SideBar } from "../MainSection/LeftSection/SideBar"; 
-// import { LoggedInUser } from "../../Store/UserSlice";
-import axios from "axios";
-import { useEffect } from "react"; 
-import { useNavigate } from "react-router-dom"; 
-import Navbar from "../Components/Navbar" 
-import { Outlet } from "react-router-dom"; 
-// import { MessageSection } from "../MainSection/RightSection/MessageSection"; 
+import React, { useEffect, useState } from "react";
+import { SideBar } from "../MainSection/LeftSection/SideBar";
+import Navbar from "../Components/Navbar";
+import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LoggedInUser } from "../Store/UserSlice"; 
-import Login from "./LoginAndSignup/Login"; 
+import { LoggedInUser } from "../Store/UserSlice";
+import { useNavigate } from "react-router-dom";
+import Login from "./LoginAndSignup/Login";
 import { SuggestPeople } from "../MainSection/RightSection/SuggestedPeople";
-import { API_URL } from "../Var";
+import axios from "axios";
 import { baseUrl } from "../Constants";
 
 export const MainSection = () => {
@@ -19,50 +15,57 @@ export const MainSection = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   const fetchLoggedInUser = async () => {
-    console.log(`${baseUrl}/Profile/view`);
-    
     try {
-      const res = await axios.get(
-        `${baseUrl}/Profile/view`,
-        { withCredentials: true }
-      );
+      const res = await axios.get(`${baseUrl}/Profile/view`, {
+        withCredentials: true,
+      });
       dispatch(LoggedInUser(res.data));
     } catch (error) {
       navigate("/");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (!User) {
       fetchLoggedInUser();
+    } else {
+      setLoading(false);
     }
   }, []);
 
-  // 🔴 If user not logged in → show ONLY login
-  // if (!User) {
-  //   return <Login />;
-  // }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-80px)] bg-[#FFF6EA] text-[#001D3D]">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!User) return <Login />;
 
   return (
-    <div className="h-[calc(100vh-80px)]  bg-[#FFF6EA]">
+    <div className="h-[calc(100vh-80px)] bg-[#FFF6EA]">
       <Navbar />
 
-      {/* main layout */}
-      <div className="pt-20 flex  bg-[#FFF6EA]">
+      <div className="pt-20 flex min-h-[calc(100vh-80px)]">
 
         {/* Sidebar */}
-        <div className="hidden lg:block w-[15%]">
+        <div className="hidden lg:block w-[15%] min-h-[calc(100vh-80px)] bg-[#FFF6EA] border-r border-[#FFD60A]">
           <SideBar />
         </div>
 
         {/* Main content */}
-        <main className="flex-1 px-6 h-[calc(100vh-80px)]">
+        <main className="flex-1  min-h-[calc(100vh-80px)]">
           <Outlet />
         </main>
 
         {/* Right section */}
-        <div className="hidden xl:block w-[30%] px-4">
+        <div className="hidden xl:block w-[30%]  min-h-[calc(100vh-80px)] bg-[#FFF6EA] ">
           <SuggestPeople />
         </div>
 

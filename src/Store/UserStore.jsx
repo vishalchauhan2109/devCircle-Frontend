@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import UserReducer from './UserSlice'
+import UserReducer from './UserSlice';
+import SidebarReducer from './SidebarSlice'; // fix typo
 
-const UserStore = configureStore({
-    reducer:UserReducer
-})
+// First store
+export const UserStore = configureStore({
+  reducer: UserReducer,
+});
 
-export default UserStore;
+// Second store
+export const SidebarStore = configureStore({
+  reducer: SidebarReducer,
+});

@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { LoggedInUser } from "../Store/UserSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { API_URL } from "../Var";
 import { baseUrl } from "../Constants";
 
 export default function UserProfileForm() {
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [about, setAbout] = useState("");
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -24,78 +24,82 @@ export default function UserProfileForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
 
-      if (photo) ("photoURL", photo);
+      const formData = new FormData();
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("about", about);
+      if (photo) formData.append("photo", photo);
 
-      let response = await axios.patch(`${baseUrl}/profile/edit`, {
-        "firstName": username,
-        "about": about,
-        // "photoURL": photo,
-      }, {
-        headers: {
-          "firstName": username,
-          "about": about,
-          // "photoURL":photoURL
-        },
+      const response = await axios.patch(`${baseUrl}/profile/edit`, formData, {
         withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      let user = response?.data?.data;
-
-      console.log(user);
-      
-
-      dispatch(LoggedInUser(user));
-      setUsername("");
-      setAbout("")
-      // alert(response);
-      toast.success("Useer Updated successfully");
+      dispatch(LoggedInUser(response.data.data));
+      toast.success("Profile updated successfully!");
+      setFirstName("");
+      setLastName("");
+      setAbout("");
+      setPhoto(null);
+      setPreview(null);
     } catch (err) {
-      // console.error(err);
-      toast.error("error" + err);
+      toast.error("Error: " + (err.response?.data?.message || err.message));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="h-[calc(100vh-80px)] flex items-center justify-center bg-[#FEEEC8] relative">
-
-      {/* IMPORTANT FIX */}
-      <div className="w-full max-w-md p-6 bg-[#FFF6EA] text-slate-900
-                      rounded-lg shadow-lg
-                      relative z-10 pointer-events-auto">
-
-        <h2 className="text-2xl font-bold text-center mb-6 text-[#BF2EF0]">
-          User Profile Form
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-[#001D3D] px-4 py-6">
+      <div className="w-full max-w-md bg-[#003566] text-[#FFC300] rounded-2xl shadow-lg p-6 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 underline">
+          Edit Profile
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          {/* FIRST NAME */}
           <div>
-            <label className="block font-medium mb-1">Username</label>
+            <label className="block mb-1 font-medium text-[#FFD60A]">
+              First Name
+            </label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-400 rounded-md
-                         focus:outline-none focus:ring-2 focus:ring-[#ED3EF7]
-                         pointer-events-auto"
-              placeholder="Enter your name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Enter your first name"
               required
+              className="w-full px-4 py-2.5 rounded-xl bg-[#001D3D] text-[#FFC300] border border-[#FFD60A] focus:outline-none focus:ring-2 focus:ring-[#FFC300]"
             />
           </div>
 
+          {/* LAST NAME */}
           <div>
-            <label className="block font-medium mb-1">Profile Photo</label>
+            <label className="block mb-1 font-medium text-[#FFD60A]">
+              Last Name
+            </label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Enter your last name"
+              required
+              className="w-full px-4 py-2.5 rounded-xl bg-[#001D3D] text-[#FFC300] border border-[#FFD60A] focus:outline-none focus:ring-2 focus:ring-[#FFC300]"
+            />
+          </div>
+
+          {/* PROFILE PHOTO */}
+          <div>
+            <label className="block mb-1 font-medium text-[#FFD60A]">
+              Profile Photo
+            </label>
             <input
               type="file"
               accept="image/*"
               onChange={handlePhotoChange}
-              className="block w-full text-slate-700 pointer-events-auto"
+              className="block w-full text-sm text-[#FFC300]"
             />
           </div>
 
@@ -104,36 +108,34 @@ export default function UserProfileForm() {
               <img
                 src={preview}
                 alt="Preview"
-                className="w-32 h-32 object-cover rounded-full
-                           border-2 border-[#BF2EF0]"
+                className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full border-4 border-[#FFD60A] my-2"
               />
             </div>
           )}
 
+          {/* ABOUT */}
           <div>
-            <label className="block font-medium mb-1">About</label>
+            <label className="block mb-1 font-medium text-[#FFD60A]">
+              About
+            </label>
             <textarea
               value={about}
               onChange={(e) => setAbout(e.target.value)}
               rows="4"
-              className="w-full px-3 py-2 border border-slate-400 rounded-md
-                         focus:outline-none focus:ring-2 focus:ring-[#ED3EF7]
-                         pointer-events-auto"
               placeholder="Tell us about yourself"
               required
+              className="w-full px-4 py-2.5 rounded-xl bg-[#001D3D] text-[#FFC300] border border-[#FFD60A] focus:outline-none focus:ring-2 focus:ring-[#FFC300]"
             />
           </div>
 
+          {/* SUBMIT BUTTON */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#ED3EF7] text-white font-semibold py-2
-                       rounded-md hover:bg-[#BF2EF0] transition
-                       disabled:opacity-60 pointer-events-auto"
+            className="w-full bg-gradient-to-r from-[#FFC300] to-[#FFD60A] text-[#001D3D] font-bold py-2.5 rounded-xl hover:scale-105 transition-transform disabled:opacity-60"
           >
-            {loading ? "Saving..." : "Submit"}
+            {loading ? "Saving..." : "Save Changes"}
           </button>
-
         </form>
       </div>
     </div>

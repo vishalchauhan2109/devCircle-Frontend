@@ -1,34 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, MessageCircle } from "lucide-react";
 import { API_URL } from "../Var";
+import { baseUrl } from "../Constants";
+import axios from "axios";
 
 const PostCard = (props) => {
-    const {idx} = props
-    const{firstName,lastName} = props?.UserProfile[idx];
-    
-    // console.log(user)
-    //   console.log(idx)
+  const [userProfile,setUserProfile] = useState("")
+  const {post} = props 
+  // const {idx} = props
 
-    const {post} = props
-    console.log(post.image)
-    // console.log(post)
+  const id = post.userId
+      console.log(post.image)
+
+  const profile = async ()=>{
+    const user = await axios.get(`${baseUrl}/user/${id}`,{withCredentials:true},{})
+     if(user){
+    setUserProfile(user?.data)
+    }
+  }
+
+  useEffect(()=>{
+    profile()
+    
+  },[id])
+
+
+  //shimmar ui to be add
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+    <div className="bg-white border border-gray-200 mb-2 rounded-xl shadow-sm">
 
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
-        {/* <img
-          src=""
+        <img
+          src={userProfile?.photoURL}
           alt="user"
           className="w-11 h-11 rounded-full object-cover border"
-        /> */}
+        />
 
         <div>
           <h4 className="font-semibold text-gray-800 text-sm">
             {/* {UserProfile.data[idx]} */}
           </h4>
-          <p className="text-2xl  text-gray-500">
-            @{firstName +" "+ lastName }
+          <p className="text-[18px] text-gray-900">
+            @{userProfile.firstName +" "+ userProfile.lastName } 
           </p>
         </div>
       </div>
@@ -43,7 +57,7 @@ const PostCard = (props) => {
       {/* Image */}
       {post?.image && (
         <img
-          src={`${API_URL}${post.image}`}
+          src={`${baseUrl}/${post.image}`}
           alt="post"
           className="w-full max-h-[500px] object-cover"
         />

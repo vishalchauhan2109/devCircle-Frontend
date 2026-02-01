@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FriendsCard from "./FriendsCard";
-import { API_URL } from "../../Var";
 import { baseUrl } from "../../Constants";
-// import { User } from 'lucide-react'
-// import { FriendsCard } from './FriendsCard'
 
 const Friends = () => {
   const [friend, setFriend] = useState([]);
@@ -14,30 +11,34 @@ const Friends = () => {
       const res = await axios.get(`${baseUrl}/friends`, {
         withCredentials: true,
       });
-      console.log(res.data);
       if (res.data.length > 0) {
-        setFriend(res?.data);
-
+        setFriend(res.data);
       }
-      } catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-  console.log(friend);
-}, [friend]);
 
   useEffect(() => {
     handleFetch();
   }, []);
 
   return (
-    <div className="flex justify-center flex-wrap gap-6">
-      
-      {friend.map((items , idx) => {
-       return items ? <FriendsCard  key={idx} data={items} /> : null;
-      })}
+    <div className="flex flex-col items-center w-full min-h-[calc(100vh-80px)] bg-[#001D3D] py-8 px-4">
+
+      <h2 className="text-3xl font-bold text-[#FFC300] mb-6">
+        Your Friends
+      </h2>
+
+      {friend.length === 0 ? (
+        <p className="text-[#FFD60A] text-lg mt-10">No friends found!</p>
+      ) : (
+        <div className="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
+          {friend.map((items, idx) => (
+            items ? <FriendsCard key={idx} data={items} /> : null
+          ))}
+        </div>
+      )}
     </div>
   );
 };
