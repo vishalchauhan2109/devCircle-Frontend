@@ -27,7 +27,7 @@ const PostCard = (props) => {
 
   //shimmar ui to be add
   return (
-    <div className="bg-white border border-gray-200 mb-2 rounded-xl shadow-sm">
+    <div className="bg-yellow-100 border border-gray-200 mb-2 rounded-xl shadow-sm">
 
       {/* Header */}
       <div className="flex items-center gap-3 p-4">

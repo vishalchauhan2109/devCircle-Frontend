@@ -1,59 +1,58 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ConnectionRequestCard from "./ConnectionRequestCard";
-import { API_URL } from "../../Var";
 import { baseUrl } from "../../Constants";
-// import { VITE_API_URL } from "../../Var";
-// import { useParams } from "react-router-dom";
 
 const ConnectionRequest = () => {
-
-  const [request, setRequest] = useState([]);
-  const [load, setLoad] = useState("")
-
+  const [requests, setRequests] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const fetchRequest = async () => {
     try {
-      const res = await axios.get(
-        `${baseUrl}/incomingRequest`,
-        { withCredentials: true }
-      );
+      const res = await axios.get(`${baseUrl}/incomingRequest`, {
+        withCredentials: true,
+      });
 
-      if (res?.data) {
-        setRequest(res?.data);
+      if (res?.data && res.data !== "No request found") {
+        setRequests(res.data);
+      } else {
+        setRequests([]);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching requests:", error);
     }
   };
 
   useEffect(() => {
     fetchRequest();
-  }, [load]);
-
-  useEffect(() => {
-    console.log(request);
-  }, [request]);
+  }, [reload]);
 
   return (
-    <div className="max-h-[calc(100vh-80px) flex-col items-center justify-center   bg-[#fff6ea] px-4 py-6">
+    <div className="flex flex-col overflow-y-scroll overflow-x-hidden scrollbar-hide items-center w-full h-[calc(100vh-80px)] bg-[#001D3D]">
 
-      <div className="text-neutral-800 text-2xl  underline mb-4  ">
+      {/* Heading */}
+      <h2 className="text-[#FFD60A] text-2xl font-semibold my-6">
         Connection Requests
-      </div>
+      </h2>
 
-      <div className="max-h-[calc(100vh-180px)] relative overflow-y-auto">
-
-        {
-          (request === "No request found")?
-          "":
-          request.map((item, idx) => (
-            item?
-            <ConnectionRequestCard key={idx}  setLoad={setLoad} request={item} />
-            : null
-          ))
-        }
-      </div>
+      {/* Content */}
+      {requests.length === 0 ? (
+        <p className="text-[#FFD60A] text-lg mt-10">
+          No connection requests found!
+        </p>
+      ) : (
+        <div className="flex flex-col w-full max-w-2xl gap-4 px-2 pb-6">
+          {requests.map((item, idx) =>
+            item ? (
+              <ConnectionRequestCard
+                key={idx}
+                request={item}
+                setLoad={setReload}
+              />
+            ) : null
+          )}
+        </div>
+      )}
     </div>
   );
 };

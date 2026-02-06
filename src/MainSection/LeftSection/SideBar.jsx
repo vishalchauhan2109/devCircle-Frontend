@@ -18,16 +18,19 @@ export const SideBar = () => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setIsOpen(true);
-        dispatch(sidebarOpen())
-        console.log(side)
+        dispatch(sidebarOpen("close"))
+    
       } else {
         setIsOpen(false);
         dispatch(sidebarClose())
+        
         // dispatch(SidebarOpen())
       }
     };
 
     handleResize();
+
+    console.log(side)
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
@@ -96,13 +99,17 @@ export const SideBar = () => {
           </ul>
 
           {/* Logo */}
-          <div className="pt-6 flex justify-center border-t border-[#003566] mt-auto">
+          {
+            
+
+          <div className="pt-6 sm:hidden flex justify-center border-t border-[#003566] mt-auto">
             <img
               src="/src/assets/DevCircleLogo.png"
               alt="DevCircle Logo"
               className="w-32 opacity-95"
             />
           </div>
+}
         </aside>
       )}
     </>

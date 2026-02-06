@@ -33,11 +33,11 @@ const Navbar = () => {
         {/* LOGO */}
         <div className="flex items-center">
 
-          <RxHamburgerMenu className="text-2xl" />
+          <RxHamburgerMenu className="text-2xl lg:hidden" />
           <img
             src="/src/assets/DevCircleLogo.png"
             alt="Logo"
-            className="h-12 sm:h-16 object-contain"
+            className="h-22 sm:h-26  object-contain"
           />
         </div>
 

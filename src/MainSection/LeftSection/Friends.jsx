@@ -24,7 +24,7 @@ const Friends = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full min-h-[calc(100vh-80px)] bg-[#001D3D] py-8 px-4">
+    <div className="flex flex-col items-center w-full h-[calc(100vh-80px)] overflow-y-scroll bg-[#001D3D] py-8 px-4">
 
       <h2 className="text-3xl font-bold text-[#FFC300] mb-6">
         Your Friends
