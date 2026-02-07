@@ -12,9 +12,12 @@ const Feed = () => {
     if (!User) return;
     try {
       const { _id } = User;
+      console.log(_id);
       const res = await axios.get(`${baseUrl}/HomeFeed/${_id}`, {
         withCredentials: true,
       });
+            console.log(res);
+
       setPosts(res.data);
     } catch (error) {
       console.log("Error fetching feed:", error);
