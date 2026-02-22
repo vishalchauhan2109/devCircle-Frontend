@@ -111,7 +111,7 @@ export const SuggestPeople = () => {
                 {/* SEND BUTTON */}
                 <button
                   onClick={() => fetchRequests("interested", idx)}
-                  className="flex-1 bg-gradient-to-r from-[#FFC300] to-[#FFD60A]
+                  className="flex-1  from-[#FFC300] to-[#FFD60A]
                   text-[#001D3D] text-sm py-2 rounded-xl
                   flex items-center justify-center gap-1
                   hover:opacity-90 transition font-semibold"

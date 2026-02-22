@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import ConnectionRequest from "./MainSection/LeftSection/ConnectionRequest";
 import  PostSection  from "./MainSection/LeftSection/PostSection";
 import Friends from "./MainSection/LeftSection/Friends";
+import Chat from "./MainSection/LeftSection/Chat";
+import MessageSection from "./MainSection/RightSection/MessageSection";
 function App() {
 
 
@@ -46,6 +48,7 @@ function App() {
               <Route path="/ConnectionRequest" element={<ConnectionRequest/>} />
               <Route path ="/Posts" element ={<PostSection/>} />
                <Route path ="/Friends" element ={<Friends/>} />
+               <Route path = "/chat" element={<MessageSection/>}/>
             </Route>
           </Routes>
         </div>
