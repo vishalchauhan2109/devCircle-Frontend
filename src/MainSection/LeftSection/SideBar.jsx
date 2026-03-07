@@ -1,10 +1,9 @@
-import { sidebarOpen, sidebarClose } from "../../Store/SidebarSlice";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
-  User as UserIcon,
+  User,
   Search,
   MessageCircle,
   Users,
@@ -13,285 +12,149 @@ import {
   Info,
   Menu,
   X,
-  Moon,
-  Sun,
-  Sparkles,
   ChevronRight,
+  Sun,
+  Moon,
+  Sparkles,
 } from "lucide-react";
 
 export const SideBar = () => {
-  const User = useSelector((state) => state.user);
-  const location = useLocation();
-  const side = useSelector((state) => state.sidebar);
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.UserStore.user);
+  const { pathname } = useLocation();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [open, setOpen] = useState(true);
+  const [dark, setDark] = useState(true);
 
-  // Color scheme matching the profile form
-  const accentColor = "#FF0087";
-  const sidebarBg = isDark ? "#0F0F0F" : "#FFFFFF";
-  const textMain = isDark ? "#FFFFFF" : "#0A0A0A";
-  const textSub = isDark ? "#A0A0A0" : "#666666";
-  const border = isDark ? "#252525" : "#FFE5F0";
-  const hoverBg = isDark ? "#1F1F1F" : "#FFF0F7";
-  const cardBg = isDark ? "#151515" : "#FFFFFF";
+  console.log(user?._id)
+  // 🎨 Theme palette
+  const accent = "#FF0087";
 
-  // Auto open on laptop, close on mobile
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsOpen(true);
-        dispatch(sidebarOpen("close"));
-      } else {
-        setIsOpen(false);
-        dispatch(sidebarClose());
-      }
-    };
+  const theme = {
+    bg: dark ? "#0F0F0F" : "#FFFFFF",
+    card: dark ? "#151515" : "#FFF5FA",
+    hover: dark ? "#1F1F1F" : "#FFEAF3",
+    text: dark ? "#FFFFFF" : "#0A0A0A",
+    subText: dark ? "#A0A0A0" : "#666666",
+    border: dark ? "#252525" : "#FFD6E8",
+  };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [dispatch]);
-
-  const links = [
-    { name: "Home", path: "/Home", icon: Home },
-    { name: "Profile", path: "/Profile", icon: UserIcon },
-    { name: "Search", path: "/Search", icon: Search },
-    { name: "Messages", path: "/Messages", icon: MessageCircle },
-    { name: "Friends", path: "/Friends", icon: Users },
-    { name: "Connection Requests", path: "/ConnectionRequest", icon: UserPlus },
-    { name: "Create a Post", path: "/Posts", icon: PenSquare },
-    { name: "About Us", path: "/About", icon: Info },
+  const items = [
+    { label: "Home", path: "/Home", icon: Home },
+    { label: "Profile", path: `/Profile`, icon: User },
+    { label: "Search", path: "/Search", icon: Search },
+    { label: "Messages", path: "/chat", icon: MessageCircle },
+    { label: "Friends", path: "/Friends", icon: Users },
+    { label: "Requests", path: "/ConnectionRequest", icon: UserPlus },
+    { label: "Create Post", path: "/Posts", icon: PenSquare },
+    { label: "About", path: "/About", icon: Info },
   ];
 
-  if (!User) return null;
+  if (!user) return null;
 
   return (
     <>
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(20px, -20px) rotate(3deg); }
-            66% { transform: translate(-15px, 15px) rotate(-3deg); }
-          }
-          
-          .sidebar-nav::-webkit-scrollbar {
-            width: 6px;
-          }
-          .sidebar-nav::-webkit-scrollbar-track {
-            background: transparent;
-          }
-          .sidebar-nav::-webkit-scrollbar-thumb {
-            background: ${accentColor}60;
-            border-radius: 10px;
-          }
-          .sidebar-nav::-webkit-scrollbar-thumb:hover {
-            background: ${accentColor};
-          }
-        `}
-      </style>
 
-      {/* Mobile Toggle Button */}
-      <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-2xl shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95"
-        onClick={() => setIsOpen(!isOpen)}
+
+      {/* 🧭 Sidebar */}
+      <aside
+        className={`
+          fixed lg:static top-[80px] left-0
+          h-[calc(100vh-80px)]
+          w-[290px] lg:w-[320px]
+          z-[50]
+          flex flex-col
+          transition-transform duration-300 ease-out
+          ${open ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+        `}
         style={{
-          backgroundColor: cardBg,
-          color: textMain,
-          border: `2px solid ${border}`,
-          boxShadow: `0 8px 24px ${accentColor}30`,
+          background: theme.bg,
+          borderRight: `1px solid ${theme.border}`,
         }}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+        {/* ❌ Close (mobile) */}
+        <div className="lg:hidden flex justify-end px-6 pt-5 pb-2">
+          <X
+            size={100}
+            color={theme.text}
+            className="cursor-pointer"
+            onClick={() => setOpen(false)}
+          />
+        </div>
 
-      {/* Backdrop for mobile */}
-      {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setIsOpen(false)}
-        ></div>
-      )}
-
-      {/* Sidebar */}
-      {isOpen && (
-        <aside
-          className="fixed lg:static top-0 left-0 z-40  lg:h-[calc(100vh-80px)] w-80 shadow-2xl transition-all duration-500 ease-out flex flex-col"
-          style={{
-            backgroundColor: sidebarBg,
-            borderRight: `2px solid ${border}`,
-          }}
-        >
-          {/* Animated Background Blobs */}
-          <div className="absolute top-0 left-0 w-full h-[calc(100vh-80px)] overflow-hidden pointer-events-none opacity-20">
-            <div
-              className="absolute top-10 left-10 w-48 h-48 rounded-full blur-3xl"
-              style={{
-                background: `radial-gradient(circle, ${accentColor}40 0%, transparent 70%)`,
-                animation: "float 20s ease-in-out infinite",
-              }}
-            ></div>
-            <div
-              className="absolute bottom-20 right-10 w-56 h-56 rounded-full blur-3xl"
-              style={{
-                background: `radial-gradient(circle, ${accentColor}30 0%, transparent 70%)`,
-                animation: "float 25s ease-in-out infinite reverse",
-              }}
-            ></div>
-          </div>
-
-          {/* Header Section */}
-          <div className="relative z-10 px-6 py-6 border-b-2" style={{ borderColor: border }}>
-            {/* Theme Toggle */}
-            <div className="flex justify-end mb-4">
-              <button
-                onClick={() => setIsDark(!isDark)}
-                aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-                className="p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 relative overflow-hidden group"
-                style={{
-                  backgroundColor: hoverBg,
-                  border: `2px solid ${border}`,
-                }}
-              >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ backgroundColor: `${accentColor}20` }}
-                ></div>
-                {isDark ? (
-                  <Sun className="w-5 h-5 relative z-10" style={{ color: textMain }} />
-                ) : (
-                  <Moon className="w-5 h-5 relative z-10" style={{ color: textMain }} />
-                )}
-              </button>
-            </div>
-
-            {/* User Info Card */}
-            <div
-              className="rounded-2xl p-5 border-2 transition-all duration-300 relative overflow-hidden group"
-              style={{
-                backgroundColor: hoverBg,
-                borderColor: border,
-              }}
-            >
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ backgroundColor: `${accentColor}10` }}
-              ></div>
-
-              <div className="relative z-10 flex items-center gap-4">
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg flex-shrink-0"
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor} 0%, #CC006D 100%)`,
-                    boxShadow: `0 4px 12px ${accentColor}60`,
-                  }}
-                >
-                  {User?.firstName ? User.firstName.charAt(0).toUpperCase() : "U"}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-lg font-bold truncate" style={{ color: textMain }}>
-                    {User?.firstName
-                      ? `${User.firstName} ${User.lastName || ""}`.trim()
-                      : "Welcome"}
-                  </p>
-                  <p className="text-xs font-medium flex items-center gap-1" style={{ color: textSub }}>
-                    <Sparkles className="w-3 h-3" style={{ color: accentColor }} />
-                    Active now
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="sidebar-nav flex-1 px-4 py-6 overflow-y-auto relative z-10">
-            <ul className="space-y-2">
-              {links.map((link) => {
-                const Icon = link.icon;
-                const isActive = location.pathname === link.path;
-
-                return (
-                  <li key={link.name}>
-                    <Link
-                      to={link.path}
-                      onClick={() => window.innerWidth < 1024 && setIsOpen(false)}
-                      className="group block px-4 py-3.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-95 relative overflow-hidden"
-                      style={{
-                        backgroundColor: isActive ? accentColor : "transparent",
-                        color: isActive ? "#FFFFFF" : textMain,
-                        border: `2px solid ${isActive ? accentColor : "transparent"}`,
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = hoverBg;
-                          e.currentTarget.style.borderColor = border;
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = "transparent";
-                          e.currentTarget.style.borderColor = "transparent";
-                        }
-                      }}
-                    >
-                      {/* Hover gradient overlay */}
-                      {isActive && (
-                        <div
-                          className="absolute inset-0 opacity-30 pointer-events-none"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%)",
-                          }}
-                        ></div>
-                      )}
-
-                      <div className="relative z-10 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Icon
-                            className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
-                            style={{ color: isActive ? "#FFFFFF" : accentColor }}
-                          />
-                          <span className="text-sm">{link.name}</span>
-                        </div>
-                        {isActive && (
-                          <ChevronRight
-                            className="w-4 h-4 animate-pulse"
-                            style={{ color: "#FFFFFF" }}
-                          />
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          {/* Footer Logo/Branding */}
+        {/* 👤 User Card */}
+        <div className="px-6 py-5 border-b" style={{ borderColor: theme.border }}>
           <div
-            className="relative z-10 px-6 py-4 border-t-2 mt-auto"
-            style={{ borderColor: border }}
+            className="flex items-center gap-4 p-4 rounded-2xl"
+            style={{ background: theme.card }}
           >
             <div
-              className="rounded-2xl p-4 text-center border-2"
-              style={{
-                backgroundColor: hoverBg,
-                borderColor: border,
-              }}
+              className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-lg"
+              style={{ background: accent }}
             >
-              <p className="text-2xl font-black mb-1" style={{ color: accentColor }}>
-                DevCircle
+              {user.firstName?.[0]?.toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <p
+                className="font-semibold text-base truncate"
+                style={{ color: theme.text }}
+              >
+                {user.firstName} {user.lastName}
               </p>
-              <p className="text-xs font-medium" style={{ color: textSub }}>
-                Connect. Build. Grow.
+              <p
+                className="text-xs flex items-center gap-1"
+                style={{ color: theme.subText }}
+              >
+                <Sparkles size={12} color={accent} /> Active now
               </p>
             </div>
           </div>
-        </aside>
-      )}
+        </div>
+
+        {/* 🔗 Navigation */}
+        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+          {items.map((item) => {
+            const Icon = item.icon;
+            const active = pathname === item.path;
+
+            return (
+              <Link
+                key={item.label}
+                to={item.path}
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between px-5 py-4 rounded-2xl transition-all"
+                style={{
+                  background: active ? accent : "transparent",
+                  color: active ? "#fff" : theme.text,
+                }}
+              >
+                <div className="flex items-center gap-4">
+                  <Icon
+                    size={20}
+                    color={active ? "#fff" : accent}
+                  />
+                  <span className="text-sm font-medium">
+                    {item.label}
+                  </span>
+                </div>
+                {active && <ChevronRight size={18} />}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* 🌗 Theme Toggle */}
+        <div className="px-6 py-5 border-t" style={{ borderColor: theme.border }}>
+          <button
+            onClick={() => setDark(!dark)}
+            className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl font-medium"
+            style={{ background: theme.hover, color: theme.text }}
+          >
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
+            {dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          </button>
+        </div>
+      </aside>
     </>
   );
 };

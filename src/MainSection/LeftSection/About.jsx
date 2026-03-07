@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Sun, Moon, Sparkles } from "lucide-react";
 
 export const About = () => {
-  const User = useSelector((state) => state.user);
+  const User = useSelector((state) => state.UserStore.user);
   const navigate = useNavigate();
 
   const scrollRef = useRef(null);

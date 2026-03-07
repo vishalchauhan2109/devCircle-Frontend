@@ -9,7 +9,7 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [isDark, setIsDark] = useState(true); // Theme toggle state — same default as SideBar
 
-  const User = useSelector((state) => state.user);
+  const User = useSelector((state) => state.UserStore.user);
 
   // ─── Color scheme matching SideBar component ───────────────────────────────
   const accentColor = "#FF0087";

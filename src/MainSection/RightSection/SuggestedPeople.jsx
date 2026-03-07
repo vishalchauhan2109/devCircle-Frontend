@@ -10,7 +10,7 @@ export const SuggestPeople = () => {
   const [requestData, setRequestData] = useState(null);
   const [loadingIndex, setLoadingIndex] = useState(null);
 
-  const User = useSelector((state) => state.user);
+  const User = useSelector((state) => state.UserStore.user);
   const scrollRef = useRef(null);
   const requestRef = useRef(null);
   const isHovering = useRef(false);

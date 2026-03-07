@@ -23,7 +23,7 @@ const PostSection = () => {
   const inputBg  = isDark ? "#151515" : "#F9F0F5";  // textarea background
   // ─────────────────────────────────────────────────────────────────────────
 
-  const User = useSelector((state) => state.user);
+  const User = useSelector((state) => state.UserStore.user);
   const id = User?._id;
 
   // IMAGE PREVIEW

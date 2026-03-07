@@ -14,12 +14,17 @@ import Chat from "../MainSection/LeftSection/Chat";
 import { Loader2 } from "lucide-react";
 
 export const MainSection = () => {
-  const User = useSelector((state) => state.user);
+  const User = useSelector((state) => state.UserStore.user);
+  console.log(User)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [isDark, setIsDark] = useState(true);
+  const [display,setDisplay] = useState("hidden")
+
+
+
 
   // Theme colors
   const accentColor = "#FF0087";
@@ -35,7 +40,7 @@ export const MainSection = () => {
         withCredentials: true,
       });
       dispatch(LoggedInUser(res.data));
-    } catch (error) {
+    } catch (err) {
       navigate("/");
     } finally {
       setLoading(false);
@@ -91,7 +96,7 @@ export const MainSection = () => {
           </p>
         </div>
 
-        <style jsx>{`
+        <style>{`
           @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(30px, -30px) rotate(5deg); }
@@ -139,7 +144,7 @@ export const MainSection = () => {
       <div className="pt-20 flex min-h-[calc(100vh-80px)] relative z-10">
         {/* Sidebar */}
         <div 
-          className="hidden lg:block w-[15%] min-h-[calc(100vh-80px)] border-r-2 transition-all duration-500"
+          className = {`${display} lg:block w-[15%] min-h-[calc(100vh-80px)] border-r-2 transition-all duration-500`}
           style={{ 
             backgroundColor: bg,
             borderColor: border 

@@ -16,6 +16,7 @@ import  PostSection  from "./MainSection/LeftSection/PostSection";
 import Friends from "./MainSection/LeftSection/Friends";
 import Chat from "./MainSection/LeftSection/Chat";
 import MessageSection from "./MainSection/RightSection/MessageSection";
+import OthersProfile from "./MainSection/OthersProfile";
 function App() {
 
 
@@ -47,8 +48,10 @@ function App() {
               <Route path="/EditProfile" element={<EditProfile />} />
               <Route path="/ConnectionRequest" element={<ConnectionRequest/>} />
               <Route path ="/Posts" element ={<PostSection/>} />
-               <Route path ="/Friends" element ={<Friends/>} />
-               <Route path = "/chat" element={<MessageSection/>}/>
+              <Route path ="/Friends" element ={<Friends/>} />
+              <Route path = "/chat" element={<MessageSection/>}/>
+              <Route path = "/profile/:userID" element={<OthersProfile/>}/>
+
             </Route>
           </Routes>
         </div>

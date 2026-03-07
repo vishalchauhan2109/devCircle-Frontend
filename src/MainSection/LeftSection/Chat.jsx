@@ -1,22 +1,19 @@
-import React, { useState } from "react";
-import { Search, Edit, Moon, Sun, MoreVertical, Check, Camera, Video, Phone } from "lucide-react";
-
-const chatData = [
-  {
-    id: 1,
-    name: "Husain_zaidi",
-    message: "आपके मैसेज का 😊 रिप्लाइ दिया",
-    time: "23h",
-    avatar: "https://i.pravatar.cc/150?img=12",
-    unread: false,
-    online: true,
-  }
-];
+import React, { useEffect, useState } from "react";
+import { Search, Edit, Moon, Sun, MoreVertical, Check, Camera, Video, Phone
+} from "lucide-react";
+import { Chatsocket } from "../../Constants/Chatsocket";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { baseUrl } from "../../Constants";
+import axios from "axios";
+// import { data } from "react-router-dom";
+import { CurrChat } from "../../Store/CurrChatSlice";
 
 export default function Chat() {
   const [isDark, setIsDark] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatData , setChatData] = useState([]);
 
   const bg = isDark ? "#0A0A0A" : "#FFF5F9";
   const cardBg = isDark ? "#151515" : "#FFFFFF";
@@ -27,10 +24,41 @@ export default function Chat() {
   const hoverBg = isDark ? "#1A1A1A" : "#FFF5F9";
   const selectedBg = isDark ? "#252525" : "#FFE5F0";
   const accentColor = "#FF0087";
+  const img = "data:image/png;base64,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"
 
-  const filteredChats = chatData.filter((chat) =>
-    chat.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // console.log("user", user)
+      const user = useSelector((state) => state.UserStore.user)
+
+  const userId = user?._id
+
+  // const filteredChats = chatData.filter((chat) =>
+  //   chat?.data?.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  const dispatch = useDispatch()
+
+
+  const fetchData = async()=>{
+    try {
+      const data  = await axios.get(`${baseUrl}/friends`,
+        {withCredentials:true}
+      )
+      if(data){
+        setChatData(data.data)
+      }
+
+    }
+    catch(error){
+      console.log("Error",error)
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+
+  },[])
+
+  
+
 
   return (
     <div
@@ -177,7 +205,8 @@ export default function Chat() {
             scrollbarColor: `${accentColor}60 transparent`,
           }}
         >
-          {filteredChats.length === 0 ? (
+          {
+          chatData?.data?.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <div 
                 className="w-20 h-20 rounded-full flex items-center justify-center mb-4"
@@ -190,10 +219,11 @@ export default function Chat() {
               </p>
             </div>
           ) : (
-            filteredChats.map((chat, index) => (
+            chatData?.map((chat, index) => (
+              <Link key={index} to="/chat">
               <div
-                key={`${chat.id}-${index}`}
-                onClick={() => setSelectedChat(chat.id)}
+                
+                onClick={()=>dispatch(CurrChat(chatData[index]))}
                 className="relative cursor-pointer transition-all duration-300 group"
                 style={{
                   backgroundColor:
@@ -224,7 +254,7 @@ export default function Chat() {
                   <div className="relative flex-shrink-0">
                     <div className="relative">
                       <img
-                        src={chat.avatar}
+                        src={(chatData[index]?.photoURL)? chatData[index]?.photoURL :img }
                         alt={`${chat.name} avatar`}
                         className="w-14 h-14 rounded-full object-cover ring-3 transition-all duration-300 group-hover:scale-105"
                         style={{
@@ -253,7 +283,7 @@ export default function Chat() {
                           fontWeight: chat.unread ? "800" : "700",
                         }}
                       >
-                        {chat.name}
+                        {chatData[index]?.firstName+" "+chatData[index]?.lastName }
                       </h3>
                       <div className="flex items-center gap-2">
                         <span
@@ -266,13 +296,6 @@ export default function Chat() {
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                        {chat.message.startsWith("You") && (
-                          <Check
-                            className="w-4 h-4 flex-shrink-0"
-                            style={{ color: accentColor }}
-                            strokeWidth={2.5}
-                          />
-                        )}
                         <p
                           className="text-sm truncate transition-colors duration-200"
                           style={{
@@ -298,7 +321,9 @@ export default function Chat() {
                   </div>
                 </div>
               </div>
+             </Link>
             ))
+          
           )}
         </div>
 

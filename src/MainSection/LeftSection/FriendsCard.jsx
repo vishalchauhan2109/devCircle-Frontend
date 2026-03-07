@@ -1,14 +1,16 @@
 import React from "react";
 import { ChevronRight, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const FriendsCard = (props) => {
-  const { firstName, lastName, photoURL, about } = props?.data || {};
+const FriendsCard = (props) => {  
+  const { firstName, lastName,_id, photoURL, about } = props?.data || {};
 
   // ─── Color scheme matching SideBar, Feed, Profile, About & Friends ────────
   // bg-white base — clean on both light & dark parent backgrounds
   const accentColor = "#FF0087";
   // ──────────────────────────────────────────────────────────────────────────
 
+  const  navigate = useNavigate()
   return (
     <div
       className="flex flex-col sm:flex-row w-full max-w-md p-5 rounded-2xl border-2 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden group bg-white"
@@ -71,6 +73,7 @@ const FriendsCard = (props) => {
 
         {/* View Profile Button */}
         <button
+        onClick={()=>{navigate(`/profile/${_id}`)}}
           className="mt-4 self-start flex items-center gap-2 px-5 py-2 font-semibold rounded-xl text-white text-sm transition-all duration-300 hover:scale-105 active:scale-95 relative overflow-hidden group/btn"
           style={{
             background: `linear-gradient(135deg, ${accentColor} 0%, #CC006D 100%)`,

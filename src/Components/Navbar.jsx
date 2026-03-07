@@ -9,8 +9,8 @@ import { baseUrl } from "../Constants";
 import { Menu, MessageCircle, User as UserIcon, Settings, LogOut, LogIn, Sun, Moon, Bell } from "lucide-react";
 
 const Navbar = ({ isDark, setIsDark }) => {
-  const User = useSelector((state) => state.user); // Redux user — ab conflict nahi
-  const sidebar = useSelector((state) => state.sidebar);
+  const User = useSelector((state) => state.UserStore.user); // Redux user — ab conflict nahi
+  // const sidebar = useSelector((state) => state.sidebar);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -24,6 +24,9 @@ const Navbar = ({ isDark, setIsDark }) => {
   const border = isDark ? "#252525" : "#FFE5F0";
 
   const handleShow = () => setShow(!show);
+
+  const sidebar = useSelector((state)=>{state.SidebarStore.sidebar})
+  console.log(sidebar)
 
   const handleLogout = async () => {
     try {
@@ -50,6 +53,7 @@ const Navbar = ({ isDark, setIsDark }) => {
         {/* LOGO */}
         <div className="flex items-center gap-3">
           <button
+          onClick={()=>{}}
             className="lg:hidden p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95"
             style={{
               backgroundColor: isDark ? "#1F1F1F" : "#FFF0F7",
@@ -57,7 +61,7 @@ const Navbar = ({ isDark, setIsDark }) => {
             }}
           >
             <Menu className="w-6 h-6" />
-          </button>
+          </button >
           <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-200 cursor-pointer">
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-lg"

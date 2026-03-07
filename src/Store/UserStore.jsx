@@ -1,13 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import UserReducer from './UserSlice';
-import SidebarReducer from './SidebarSlice'; // fix typo
+import UserReducer from "./UserSlice";
+import SidebarReducer from "./SidebarSlice";
+import CurrChatReducer from "./CurrChatSlice";
 
-// First store
-export const UserStore = configureStore({
-  reducer: UserReducer,
-});
-
-// Second store
-export const SidebarStore = configureStore({
-  reducer: SidebarReducer,
+export const Store = configureStore({
+  reducer: {
+    UserStore: UserReducer,
+    SidebarStore: SidebarReducer,
+    CurrChatStore: CurrChatReducer,
+  },
 });
