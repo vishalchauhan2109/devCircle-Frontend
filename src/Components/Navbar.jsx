@@ -1,9 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LoggedInUser } from "../Store/UserSlice";
-import { baseUrl } from "../Constants";
 
 // ── FIX: User (lucide icon) ko UserIcon rename kiya — Redux ka User state se conflict tha ──
 import { Menu, MessageCircle, User as UserIcon, Settings, LogOut, LogIn, Sun, Moon, Bell } from "lucide-react";
@@ -30,7 +29,7 @@ const Navbar = ({ isDark, setIsDark }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${baseUrl}/logout`, {}, { withCredentials: true });
+      await axiosInstance.post(`/logout`);
       dispatch(LoggedInUser(null));
       navigate("/");
     } catch (error) {
