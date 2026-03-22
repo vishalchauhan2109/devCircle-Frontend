@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import ConnectionRequestCard from "./ConnectionRequestCard";
-import { baseUrl } from "../../Constants";
 import { UserPlus, Sun, Moon, Sparkles } from "lucide-react";
 
 const ConnectionRequest = () => {
@@ -22,9 +21,7 @@ const ConnectionRequest = () => {
 
   const fetchRequest = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/incomingRequest`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get(`/incomingRequest`);
 
       if (res?.data && res.data !== "No request found") {
         setRequests(res.data);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../../Components/PostCard";
-import axios from "axios";
-import { baseUrl } from "../../Constants";
+import axiosInstance from "../../api/axiosInstance";
 import { useSelector } from "react-redux";
 import { Sparkles, Rss, Sun, Moon } from "lucide-react";
 
@@ -28,9 +27,7 @@ const Feed = () => {
     try {
       const { _id } = User;
       console.log(_id);
-      const res = await axios.get(`${baseUrl}/HomeFeed/${_id}`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get(`/HomeFeed/${_id}`);
       console.log(res);
 
       setPosts(res.data);

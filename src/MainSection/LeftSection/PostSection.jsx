@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { useSelector } from "react-redux";
-import { API_URL } from "../../Var";
 import { PenSquare, Sun, Moon, Sparkles, ImagePlus, X, Send } from "lucide-react";
 
 const PostSection = () => {
@@ -45,10 +44,9 @@ const PostSection = () => {
       formData.append("caption", caption);
       if (image) formData.append("image", image);
 
-      const res = await axios.post(
-        `${API_URL}/posts/createpost/${id}`,
-        formData,
-        { withCredentials: true }
+      const res = await axiosInstance.post(
+        `/posts/createpost/${id}`,
+        formData
       );
       console.log("POST CREATED:", res.data);
 

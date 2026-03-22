@@ -10,8 +10,7 @@ import {
   Users,
   UserCheck,
 } from "lucide-react";
-import axios from "axios";
-import { baseUrl } from "../Constants";
+import axiosInstance from "../api/axiosInstance";
 
 const OthersProfile = () => {
   const User = useSelector((state) => state.UserStore.user);
@@ -35,7 +34,7 @@ const OthersProfile = () => {
   const viewProfile = async() => {
     try {
       
-      const data = await axios.get(baseUrl + "/user/"+ userID, { withCredentials: true });
+      const data = await axiosInstance.get(`/user/${userID}`);
       setData(data?.data)
     } catch (Error) {
       console.log(Error);
