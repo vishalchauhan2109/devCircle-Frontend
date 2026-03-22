@@ -4,7 +4,8 @@ import { Search, Edit, Moon, Sun, MoreVertical, Check, Camera, Video, Phone
 import { Chatsocket } from "../../Constants/Chatsocket";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import { baseUrl } from "../../Constants";
+import axios from "axios";
 // import { data } from "react-router-dom";
 import { CurrChat } from "../../Store/CurrChatSlice";
 
@@ -38,7 +39,9 @@ export default function Chat() {
 
   const fetchData = async()=>{
     try {
-      const data  = await axiosInstance.get(`/friends`)
+      const data  = await axios.get(`${baseUrl}/friends`,
+        {withCredentials:true}
+      )
       if(data){
         setChatData(data.data)
       }

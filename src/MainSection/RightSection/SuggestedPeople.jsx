@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { IoPersonAddSharp } from "react-icons/io5";
-import axiosInstance from "../../api/axiosInstance";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
+import { baseUrl } from "../../Constants";
 
 export const SuggestPeople = () => {
   const [people, setPeople] = useState([]);
@@ -16,7 +17,9 @@ export const SuggestPeople = () => {
 
   const fetchPeople = async () => {
     try {
-      const { data } = await axiosInstance.get(`/feed`);
+      const { data } = await axios.get(`${baseUrl}/feed`, {
+        withCredentials: true,
+      });
       setPeople(data);
     } catch (err) {
       console.log(err);
@@ -28,9 +31,10 @@ export const SuggestPeople = () => {
       const id = people[idx]._id;
       setLoadingIndex(idx);
 
-      const { data } = await axiosInstance.post(
-        `/request/send/${status}/${id}`,
-        {}
+      const { data } = await axios.post(
+        `${baseUrl}/request/send/${status}/${id}`,
+        {},
+        { withCredentials: true }
       );
 
       setRequestData(data);

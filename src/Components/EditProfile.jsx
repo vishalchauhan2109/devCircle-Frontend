@@ -1,8 +1,9 @@
-import axiosInstance from "../api/axiosInstance";
+import axios from "axios";
 import React, { useState } from "react";
 import { LoggedInUser } from "../Store/UserSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { baseUrl } from "../Constants";
 import { User, Mail, FileText, Camera, Upload, Check, Moon, Sun, Edit3, Sparkles } from "lucide-react";
 
 export default function UserProfileForm() {
@@ -41,7 +42,8 @@ export default function UserProfileForm() {
       formData.append("about", about);
       if (photo) formData.append("photo", photo);
 
-      const response = await axiosInstance.patch(`/profile/edit`, formData, {
+      const response = await axios.patch(`${baseUrl}/profile/edit`, formData, {
+        withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
 

@@ -1,5 +1,6 @@
-import axiosInstance from "../../api/axiosInstance";
+import axios from "axios";
 import React from "react";
+import { baseUrl } from "../../Constants";
 import { Sparkles, Check, X } from "lucide-react";
 
 const ConnectionRequestCard = ({ request, setLoad }) => {
@@ -12,9 +13,10 @@ const ConnectionRequestCard = ({ request, setLoad }) => {
 
   const Resrequest = async (status, fromUserId) => {
     try {
-      const res = await axiosInstance.post(
-        `/request/review/${status}/${fromUserId}`,
-        {}
+      const res = await axios.post(
+        `${baseUrl}/request/review/${status}/${fromUserId}`,
+        {},
+        { withCredentials: true }
       );
       setLoad(res); // trigger reload
     } catch (error) {

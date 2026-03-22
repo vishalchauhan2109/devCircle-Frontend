@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Heart, MessageCircle, MoreHorizontal } from "lucide-react";
 import { baseUrl } from "../Constants";
-import axiosInstance from "../api/axiosInstance";
+import axios from "axios";
 
 const PostCard = ({ post }) => {
   const [userProfile, setUserProfile] = useState(null);
@@ -14,8 +14,9 @@ const PostCard = ({ post }) => {
       
       try {
         setIsLoading(true);
-        const { data } = await axiosInstance.get(
-          `/user/${post.userId}`
+        const { data } = await axios.get(
+          `${baseUrl}/user/${post.userId}`,
+          { withCredentials: true }
         );
         setUserProfile(data);
       } catch (error) {

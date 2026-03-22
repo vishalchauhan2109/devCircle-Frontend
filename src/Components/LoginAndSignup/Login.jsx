@@ -1,10 +1,11 @@
 // src/Login.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { LoggedInUser } from "../../Store/UserSlice";
+import { baseUrl } from "../../Constants";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from "lucide-react";
+import { LoggedInUser } from "../../Store/UserSlice";
 // import { LoggedInUser } from "../../Store/UserSlice";
 
 const Login = () => {
@@ -27,9 +28,10 @@ const Login = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const res = await axiosInstance.post(
-        `/Login`,
-        { emailId: email, password }
+      const res = await axios.post(
+        `${baseUrl}/Login`,
+        { emailId: email, password },
+        { withCredentials: true },
       );
       console.log("Login response:", res.data.user);
       dispatch(LoggedInUser(res.data.user));

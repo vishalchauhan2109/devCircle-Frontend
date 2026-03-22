@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance";
+import axios from "axios";
 import FriendsCard from "./FriendsCard";
+import { baseUrl } from "../../Constants";
 import { Users, Sun, Moon, Sparkles } from "lucide-react";
 
 const Friends = () => {
@@ -20,7 +21,9 @@ const Friends = () => {
 
   const handleFetch = async () => {
     try {
-      const res = await axiosInstance.get(`/friends`);
+      const res = await axios.get(`${baseUrl}/friends`, {
+        withCredentials: true,
+      });
       if (res.data.length > 0) {
         setFriend(res.data);
       }

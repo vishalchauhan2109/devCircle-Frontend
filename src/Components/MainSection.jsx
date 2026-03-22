@@ -7,7 +7,8 @@ import { LoggedInUser } from "../Store/UserSlice";
 import { useNavigate } from "react-router-dom";
 import Login from "./LoginAndSignup/Login";
 import { SuggestPeople } from "../MainSection/RightSection/SuggestedPeople";
-import axiosInstance from "../api/axiosInstance";
+import axios from "axios";
+import { baseUrl } from "../Constants";
 import MessageSection from "../MainSection/RightSection/MessageSection";
 import Chat from "../MainSection/LeftSection/Chat";
 import { Loader2 } from "lucide-react";
@@ -35,7 +36,9 @@ export const MainSection = () => {
 
   const fetchLoggedInUser = async () => {
     try {
-      const res = await axiosInstance.get(`/Profile/view`);
+      const res = await axios.get(`${baseUrl}/Profile/view`, {
+        withCredentials: true,
+      });
       dispatch(LoggedInUser(res.data));
     } catch (err) {
       navigate("/");
